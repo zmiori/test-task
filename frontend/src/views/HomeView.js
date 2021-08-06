@@ -3,6 +3,7 @@ import { React, useState, useEffect } from "react";
 import Container from "../components/Container";
 import UsersList from "../components/UsersList";
 import UserSort from "../components/UserSort";
+import UserFeed from "../components/UserFeed";
 
 import { getUsers } from "../services/users-service";
 
@@ -51,11 +52,17 @@ function HomeView({ isLoggedIn }) {
 
   return (
     <Container>
-      <main>
+      <main
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
         <section>
           <UserSort sortUsers={(param) => sortUsers(param)} />
           <UsersList users={users} />
         </section>
+        <UserFeed></UserFeed>
       </main>
     </Container>
   );

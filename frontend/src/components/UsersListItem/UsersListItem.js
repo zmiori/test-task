@@ -1,10 +1,24 @@
-import { React } from "react";
+import { useState } from "react";
 import s from "./UsersListItem.module.css";
+import Modal from "../Modal";
+import UserPosts from "../UserPosts";
 
-function UsersListItem({ user, onDoubleClick }) {
+function UsersListItem({ user }) {
   const { username } = user;
+  const [showModal, setShowModal] = useState(false);
+
+  function toggleModal() {
+    setShowModal(!showModal);
+  }
+
   return (
-    <li className={`card ${s.card}`} onDoubleClick={() => onDoubleClick(user)}>
+    <li className={`card ${s.card}`} onDoubleClick={() => toggleModal()}>
+      {showModal && (
+        <Modal onClose={() => toggleModal()}>
+          <UserPosts user={user}></UserPosts>
+        </Modal>
+      )}
+
       <div className="card-content">
         <h2 className="card-title">User: {username}</h2>
         <ul className={s.info}>
