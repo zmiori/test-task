@@ -1,5 +1,4 @@
 import { React, useState, useEffect } from "react";
-
 import Container from "../components/Container";
 import UsersList from "../components/UsersList";
 import UserSort from "../components/UserSort";

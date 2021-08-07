@@ -1,0 +1,28 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cross-env NODE_ENV=production node ./bin/server.js",
+    "start:dev": "cross-env NODE_ENV=development nodemon ./bin/server.js"
+  },
+  "author": "Zoe Baletska <zoya.miori@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "helmet": "^4.6.0",
+    "mongodb": "^4.1.0",
+    "mongoose": "^5.13.5",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.12",
+    "query-string": "^7.0.1"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
+  }
+}
