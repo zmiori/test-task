@@ -22,11 +22,6 @@ app.use(express.json());
 
 app.use("/auth", authRouter);
 
-// router.post("/signup", ctrl.register);
-// router.post("/login", ctrl.login);
-// router.post("/logout", ctrl.logout);
-// router.get("/current", ctrl.getUser);
-
 app.use((req, res) => {
   res
     .status(HttpCode.NOT_FOUND)

@@ -15,3 +15,17 @@ export const getUserPosts = async (userId) => {
   // console.log(data);
   return data;
 };
+
+export const getCurrentUserData = async (accessToken) => {
+  const { data } = await axios.post(`http://localhost:3000/auth/current`, {
+    accessToken,
+  });
+  // console.log(data);
+  return data;
+};
+
+export const logout = async (user) => {
+  const { data } = await axios.post(`http://localhost:3000/auth/logout`, user);
+  console.log(data);
+  return data;
+};

@@ -26,6 +26,11 @@ const userSchema = new Schema({
     type: String,
     default: "./tmp/default-avatar.png",
   },
+
+  feed: {
+    type: Array,
+    default: [],
+  },
 });
 
 const User = model("user", userSchema);

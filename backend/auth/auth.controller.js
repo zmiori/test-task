@@ -1,6 +1,8 @@
 const queryString = require("query-string");
 const axios = require("axios");
-// const URL = require("url");
+require("dotenv").config();
+const Users = require("../repository/users");
+const { HttpCode } = require("../helpers/constants");
 
 exports.googleAuth = async (req, res) => {
   const stringifiedParams = queryString.stringify({
@@ -42,11 +44,48 @@ exports.googleRedirect = async (req, res) => {
       Authorization: `Bearer ${tokenData.data.access_token}`,
     },
   });
-  // userData.data.email
-  // ...
-  // ...
-  // ...
+  console.log(userData.data);
+  const user = await Users.findUserByEmail(userData.data.email);
+
+  if (user) {
+    await Users.updateToken(user.id, tokenData.data.access_token);
+  } else {
+    const newUserData = {
+      id: userData.data.id,
+      email: userData.data.email,
+      name: userData.data.name,
+      avatarURL: userData.data.picture,
+      accessToken: tokenData.data.access_token,
+      refreshToken: tokenData.data.refresh_token,
+    };
+    await Users.createUser(newUserData);
+  }
+
   return res.redirect(
     `${process.env.FRONTEND_URL}?accessToken=${tokenData.data.access_token}&refreshToKen=${tokenData.data.refresh_token}`
   );
+};
+
+exports.logout = async (req, res) => {
+  await Users.updateToken(req.body.id, null);
+  return res.status(HttpCode.NO_CONTENT).json({});
+};
+
+exports.getUser = async (req, res) => {
+  const user = await Users.findUserByAccessToken(req.body.accessToken);
+
+  return res.status(HttpCode.OK).json({
+    status: "success",
+    code: HttpCode.OK,
+    data: user,
+  });
+};
+
+exports.updateUserFeed = async (req, res) => {
+  const { feed } = await Users.updateFeed(req.user.id, req.body);
+  return res.status(HttpCode.OK).json({
+    status: "success",
+    code: HttpCode.OK,
+    feed: feed,
+  });
 };
