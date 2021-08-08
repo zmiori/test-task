@@ -1,12 +1,13 @@
 # test-task
 
-To run backend:
-cd backend
-npm i
-npm start
+
+## To run backend:
+<code>cd backend</code> <br>
+<code>npm i</code><br>
+<code>npm start</code><br>
 
 
-To run frontend:
-cd frontend
-npm i
-npm start
+## To run frontend:
+<code>cd frontend</code><br>
+<code>npm i</code><br>
+<code>npm start</code><br>
