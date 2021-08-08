@@ -82,7 +82,8 @@ exports.getUser = async (req, res) => {
 };
 
 exports.updateUserFeed = async (req, res) => {
-  const { feed } = await Users.updateFeed(req.user.id, req.body);
+  console.log(req);
+  const { feed } = await Users.updateFeed(req.body.userId, req.body.feed);
   return res.status(HttpCode.OK).json({
     status: "success",
     code: HttpCode.OK,

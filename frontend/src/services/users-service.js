@@ -29,3 +29,12 @@ export const logout = async (user) => {
   console.log(data);
   return data;
 };
+
+export const updateUserFeed = async (userId, feed) => {
+  const { data } = await axios.post(`http://localhost:3000/auth/feed`, {
+    userId,
+    feed,
+  });
+  console.log(data);
+  return data;
+};

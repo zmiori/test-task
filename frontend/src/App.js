@@ -1,16 +1,28 @@
 import { useState, useEffect } from "react";
-import { Switch, Route, useLocation, useParams } from "react-router-dom";
+import { Switch, Route, useLocation } from "react-router-dom";
 import "./App.css";
 import "materialize-css/dist/css/materialize.min.css";
 
 import NavBar from "./components/NavBar";
 import HomeView from "./views/HomeView";
-import { getCurrentUserData, logout } from "./services/users-service";
+import {
+  getCurrentUserData,
+  logout,
+  getUsers,
+  updateUserFeed,
+} from "./services/users-service";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState({});
   const location = useLocation();
+  const [userCards, setUserCards] = useState([]);
+
+  useEffect(() => {
+    getUsers()
+      .then((data) => setUserCards(data))
+      .catch((e) => console.log(e));
+  }, []);
 
   useEffect(() => {
     const token = new URLSearchParams(location.search).get("accessToken");
@@ -30,12 +42,38 @@ function App() {
     setIsLoggedIn(false);
   }
 
+  async function handleDrag(result) {
+    const { destination, source, draggableId } = result;
+    if (!isLoggedIn) {
+      return;
+    }
+    if (!destination) {
+      return;
+    }
+
+    const draggedItem = userCards.find((user) => user.username === draggableId);
+    const updatedFeed = [...user.feed];
+    updatedFeed.splice(destination.index, 0, draggedItem);
+    await updateUserFeed(user._id, updatedFeed);
+    const { data } = await getCurrentUserData(user.accessToken);
+    setUser(data);
+  }
+
   return (
     <>
-      <NavBar isLoggedIn={isLoggedIn} onLogout={() => handleLogout()} />
+      <NavBar
+        isLoggedIn={isLoggedIn}
+        onLogout={() => handleLogout()}
+        user={user}
+      />
       <Switch>
         <Route path="/">
-          <HomeView />
+          <HomeView
+            isLoggedIn={isLoggedIn}
+            user={user}
+            userCards={userCards}
+            onDrag={(result) => handleDrag(result)}
+          />
         </Route>
       </Switch>
     </>

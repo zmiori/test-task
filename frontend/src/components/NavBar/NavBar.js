@@ -4,7 +4,7 @@ import Container from "../Container";
 
 import s from "./NavBar.module.css";
 
-function NavBar({ isLoggedIn, onLogout }) {
+function NavBar({ isLoggedIn, onLogout, user }) {
   return (
     <div className={s.outline}>
       <Container>
@@ -14,8 +14,16 @@ function NavBar({ isLoggedIn, onLogout }) {
           </NavLink>
 
           {isLoggedIn ? (
-            <div>
-              <button onClick={() => onLogout()}>Logout</button>
+            <div className={s.container}>
+              <span className={s.item}>{user.name}</span>
+              <img
+                src={user.avatarURL}
+                alt="user avatar"
+                className={`${s.avatar} ${s.item}`}
+              ></img>
+              <button onClick={() => onLogout()} className={s.item}>
+                Logout
+              </button>
             </div>
           ) : (
             <a href="http://localhost:3000/auth/google"> Sign in with Google</a>

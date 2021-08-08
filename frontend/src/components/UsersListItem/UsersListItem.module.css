@@ -1,6 +1,10 @@
 .card:hover {
-    cursor: pointer;
+    /* cursor: pointer; */
     transform: scale(1.02);
+}
+
+.card {
+    cursor: grab;
 }
 
 
